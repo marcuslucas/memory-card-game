@@ -5,9 +5,8 @@ const Card = (props) => {
   const [isClicked, setIsClicked] = useState(false);
 
   const handleClick = () => {
-    console.log("Click");
     if (isClicked) {
-      // GAME OVER
+      props.setGameOver();
     } else {
       setIsClicked(true);
       const elem = { name: props.name };

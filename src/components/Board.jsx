@@ -7,15 +7,17 @@ const Board = (props) => {
   const [index, setIndex] = useState(0);
 
   const handleClickedElem = (elem) => {
-    console.log("clicked clickedElem");
+    console.log("Setting Elem");
     setClickedElem(clickedElem.concat(elem));
   };
 
   const cleanClickedElem = () => {
+    console.log("Cleaning...");
     setClickedElem([]);
+    setIndex(0);
   };
 
-  const incrementScore = () => {
+  const incrementIndex = () => {
     setIndex(index + 1);
     console.log("Increment Score");
   };
@@ -29,22 +31,19 @@ const Board = (props) => {
   };
 
   const data = ["Item 1", "Item 2", "Item 3", "Item 4"];
-  console.log(shuffle(data));
+  shuffle(data);
   const cards = data.map((item, index) => (
     <Card
       key={index}
       name={item}
       handleClickedElem={handleClickedElem}
-      incrementScore={incrementScore}
+      incrementScore={props.incrementScore}
+      setGameOver={props.setGameOver}
+      // cleanClickedElem={cleanClickedElem}
     />
   ));
 
-  return (
-    <div>
-      <h1>{index}</h1>
-      {cards}
-    </div>
-  );
+  return <div>{cards}</div>;
 };
 
 export default Board;
