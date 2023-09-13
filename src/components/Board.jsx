@@ -2,10 +2,43 @@ import React from "react";
 import Card from "./Card";
 import { useState } from "react";
 import { useEffect } from "react";
+import axios from "axios";
 
 const Board = (props) => {
   const [clickedElem, setClickedElem] = useState([]);
   const [index, setIndex] = useState(0);
+
+  const [pokeData, setPokeData] = useState([]);
+  const [loading, setLoading] = useState(true);
+
+  useEffect(() => {
+    const fetchData = async () => {
+      try {
+        const resp = await axios.get(
+          "https://pokeapi.co/api/v2/pokemon?limit=5"
+        );
+        const pokeList = resp.data.results;
+        // console.log(pokeList);
+
+        const pokeDetails = await Promise.all(
+          pokeList.map(async (pokemon) => {
+            const detailResp = await axios.get(pokemon.url);
+            return {
+              name: pokemon.name,
+              sprite: detailResp.data.sprites.front_default,
+            };
+          })
+        );
+        // console.log(pokeDetails);
+        setPokeData(pokeDetails);
+        setLoading(false);
+      } catch (error) {
+        console.error("Error Fetching Data:", error);
+        setLoading(false);
+      }
+    };
+    fetchData();
+  }, []);
 
   const handleClickedElem = (elem) => {
     console.log("Setting Elem");
@@ -20,7 +53,6 @@ const Board = (props) => {
 
   const incrementIndex = () => {
     setIndex(index + 1);
-    // console.log("Increment index");
   };
 
   const shuffle = (arr) => {
@@ -31,9 +63,6 @@ const Board = (props) => {
     return arr;
   };
 
-  const data = ["Item 1", "Item 2", "Item 3", "Item 4"];
-  shuffle(data);
-
   useEffect(() => {
     if (clickedElem.length >= data.length && index < 5) {
       incrementIndex();
@@ -41,21 +70,28 @@ const Board = (props) => {
     }
   }, []);
 
-  const cards = data.map((item) => {
-    // console.log(item);
+  const data = pokeData.map((pokemon, index) => {
+    console.log(pokeData[index]);
     return (
-      <Card
-        key={item}
-        name={item}
-        handleClickedElem={handleClickedElem}
-        incrementScore={props.incrementScore}
-        setGameOver={props.setGameOver}
-        // cleanClickedElem={cleanClickedElem}
-      />
+      <div key={index} className="pokemon-cards">
+        <Card
+          name={pokemon.name}
+          img={pokemon.sprite}
+          handleClickedElem={handleClickedElem}
+          incrementScore={props.incrementScore}
+          setGameOver={props.setGameOver}
+        />
+      </div>
     );
   });
 
-  return <div>{cards}</div>;
+  shuffle(data);
+
+  if (loading) {
+    return <div className="">loading...</div>;
+  }
+
+  return <div className="board">{data}</div>;
 };
 
 export default Board;

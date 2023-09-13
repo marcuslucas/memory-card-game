@@ -6,6 +6,7 @@ const Card = (props) => {
 
   const handleClick = () => {
     if (isClicked) {
+      console.log("already clicked");
       props.setGameOver();
     } else {
       setIsClicked(true);
@@ -16,8 +17,9 @@ const Card = (props) => {
   };
 
   return (
-    <div onClick={handleClick} className="card-container">
-      {props.name}
+    <div onClick={handleClick} className="pokemon-card">
+      <h3>{props.name}</h3>
+      <img className="pokemon-image" src={props.img} alt={props.name} />
     </div>
   );
 };

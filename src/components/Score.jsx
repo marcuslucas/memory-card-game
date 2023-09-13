@@ -1,7 +1,7 @@
 import React from "react";
 
 const Score = (props) => {
-  return <div className="score">{props.score}</div>;
+  return <div className="score">Current Score: {props.score}</div>;
 };
 
 export default Score;
