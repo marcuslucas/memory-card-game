@@ -1,6 +1,7 @@
 import React from "react";
 import Card from "./Card";
 import { useState } from "react";
+import { useEffect } from "react";
 
 const Board = (props) => {
   const [clickedElem, setClickedElem] = useState([]);
@@ -19,7 +20,7 @@ const Board = (props) => {
 
   const incrementIndex = () => {
     setIndex(index + 1);
-    console.log("Increment Score");
+    // console.log("Increment index");
   };
 
   const shuffle = (arr) => {
@@ -32,16 +33,27 @@ const Board = (props) => {
 
   const data = ["Item 1", "Item 2", "Item 3", "Item 4"];
   shuffle(data);
-  const cards = data.map((item, index) => (
-    <Card
-      key={index}
-      name={item}
-      handleClickedElem={handleClickedElem}
-      incrementScore={props.incrementScore}
-      setGameOver={props.setGameOver}
-      // cleanClickedElem={cleanClickedElem}
-    />
-  ));
+
+  useEffect(() => {
+    if (clickedElem.length >= data.length && index < 5) {
+      incrementIndex();
+      cleanClickedElem();
+    }
+  }, []);
+
+  const cards = data.map((item) => {
+    // console.log(item);
+    return (
+      <Card
+        key={item}
+        name={item}
+        handleClickedElem={handleClickedElem}
+        incrementScore={props.incrementScore}
+        setGameOver={props.setGameOver}
+        // cleanClickedElem={cleanClickedElem}
+      />
+    );
+  });
 
   return <div>{cards}</div>;
 };

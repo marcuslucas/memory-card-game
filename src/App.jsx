@@ -2,6 +2,7 @@ import React, { useEffect, useState } from "react";
 import Card from "./components/Card";
 import Board from "./components/Board";
 import Gameover from "./components/Gameover";
+import Score from "./components/Score";
 
 const App = (props) => {
   const [score, setScore] = useState(0);
@@ -39,7 +40,7 @@ const App = (props) => {
 
   return (
     <div>
-      <h1>{score}</h1>
+      <Score score={score} />
       {!gameOver && (
         <Board
           incrementScore={incrementScore}
