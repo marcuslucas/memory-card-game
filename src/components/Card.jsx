@@ -1,8 +1,17 @@
-import React from "react";
+import React, { useEffect } from "react";
 import { useState } from "react";
 
 const Card = (props) => {
   const [isClicked, setIsClicked] = useState(false);
+
+  const clearState = () => {
+    console.log("clear state");
+    setIsClicked(false);
+  };
+
+  useEffect(() => {
+    clearState();
+  }, [props.index]);
 
   const handleClick = () => {
     if (isClicked) {

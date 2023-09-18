@@ -18,17 +18,36 @@
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
   -webkit-text-size-adjust: 100%;
+
+  height: 100%;
+  width: 100%;
+}
+
+body {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin: 2rem 3rem;
+}
+
+.container {
+  border: solid 1px var(--txtBlack);
+  border-radius: 5px;
+  padding: 2.5rem;
 }
 
 .board {
   display: flex;
+  flex-wrap: wrap;
+  width: 70%;
+  margin: 1rem auto 1rem auto;
 }
 
 .pokemon-cards {
   display: flex;
-  flex-wrap: wrap;
+  flex-basis: 25%;
+  flex-grow: 1;
   justify-content: center;
-  margin: 1rem;
 }
 
 .pokemon-card {
